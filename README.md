@@ -1,176 +1,139 @@
-# Omni Cave Frontend
+git remote add origin https://github.com/SuhelIndiIt/my_app.git# Omni Cave
 
-A comprehensive React Native application for the Omni Cave platform, providing a modern and intuitive user experience for cave exploration and management.
+A modern task management and activity tracking application built with React Native. Omni Cave helps you organize your tasks, track your activities, and stay productive with a clean, intuitive interface.
 
 ## 🚀 Features
 
-- **Cross-platform compatibility** - iOS and Android support
-- **Modern UI/UX** - Built with React Native and custom components
-- **Authentication system** - Secure user login and registration
-- **Real-time notifications** - Push notification support
-- **Payment integration** - Stripe payment processing
-- **Social features** - User profiles and social interactions
-- **Responsive design** - Optimized for various screen sizes
-
-## 📱 Screenshots
-
-_Add screenshots of your app here_
+- **Task Management** - Create, update, and organize your tasks with ease
+- **Activity Logging** - Track your activities and productivity over time
+- **Offline-First** - Work seamlessly with or without internet connection
+- **Dark/Light Mode** - Built-in theme support for comfortable viewing
+- **Cross-platform** - Works on both iOS and Android
+- **Data Persistence** - Your data is saved locally and synced when online
+- **Responsive Design** - Optimized for various screen sizes and devices
 
 ## 🛠️ Tech Stack
 
-- **Framework**: React Native 0.76.1
+- **Framework**: React Native
 - **Language**: JavaScript
 - **State Management**: React Context API
 - **Navigation**: React Navigation
-- **UI Components**: Custom components with native styling
-- **Payment**: Stripe SDK
-- **Authentication**: Firebase Auth
-- **Push Notifications**: Firebase Cloud Messaging
+- **Storage**: AsyncStorage for local data persistence
+- **UI**: Custom components with native styling
+- **Theming**: Built-in light/dark theme support
+- **Date Handling**: date-fns and moment.js
 - **Build Tools**: Metro bundler, Babel
 - **Package Manager**: npm
 
-## 📋 Prerequisites
+## 🚀 Getting Started
 
-Before you begin, ensure you have the following installed:
+### Prerequisites
 
-- **Node.js** (v18 or higher)
+- **Node.js** (v16 or higher)
 - **npm** or **yarn**
-- **React Native CLI**
-- **Xcode** (for iOS development)
-- **Android Studio** (for Android development)
+- **React Native development environment**
+  - For iOS: Xcode (macOS only)
+  - For Android: Android Studio and Android SDK
 - **Java Development Kit (JDK)** 11 or higher
-- **CocoaPods** (for iOS dependencies)
+- **CocoaPods** (for iOS development)
 
-### Environment Setup
+### Installation
 
-1. **Install React Native CLI globally:**
-
+1. **Clone the repository**
    ```bash
-   npm install -g @react-native-community/cli
+   git clone https://github.com/REX-Indiit/omni-cave-FE.git
+   cd omni-cave-FE
    ```
 
-2. **Install iOS dependencies (macOS only):**
-
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+   
+3. **Install iOS dependencies (macOS only)**
    ```bash
    cd ios && pod install && cd ..
    ```
 
-3. **Install project dependencies:**
-   ```bash
-   npm install
-   ```
-
 ## 🚀 Getting Started
 
-### Step 1: Clone the Repository
+### Running the App
 
-```bash
-git clone https://github.com/REX-Indiit/omni-cave-FE.git
-cd omni-cave-FE
-```
-
-### Step 2: Install Dependencies
-
-```bash
-# Install Node.js dependencies
-npm install
-
-# Install iOS dependencies (macOS only)
-cd ios && pod install && cd ..
-```
-
-### Step 3: Environment Configuration
-
-1. **Copy environment variables:**
-
+1. **Start the Metro bundler**
    ```bash
-   cp .env.example .env
+   npm start
+   # or
+   yarn start
    ```
 
-2. **Configure your environment variables:**
-   - `API_BASE_URL`: Your backend API URL
-   - `STRIPE_PUBLISHABLE_KEY`: Stripe publishable key
-   - `FIREBASE_CONFIG`: Firebase configuration
+2. **Run on iOS (macOS only)**
+   ```bash
+   npm run ios
+   # or
+   yarn ios
+   ```
 
-### Step 4: Start Metro Bundler
-
-```bash
-# Start Metro bundler
-npm start
-
-# OR using Yarn
-yarn start
-```
-
-### Step 5: Run the Application
-
-#### For iOS (macOS only)
-
-```bash
-# Start iOS simulator
-npm run ios
-
-# OR using Yarn
-yarn ios
-```
-
-#### For Android
-
-```bash
-# Start Android emulator
-npm run android
-
-# OR using Yarn
-yarn android
-```
+3. **Run on Android**
+   ```bash
+   npm run android
+   # or
+   yarn android
+   ```
 
 ## 📁 Project Structure
 
 ```
 src/
-├── appContext/          # React Context providers
 ├── assets/             # Images, fonts, and static files
+├── components/         # Reusable UI components
 ├── constants/          # App constants and configuration
-├── hooks/              # Custom React hooks
-├── routers/            # Navigation configuration
+├── context/            # React Context providers
+│   ├── AuthContext.js  # Authentication state
+│   ├── TasksContext.js # Tasks and activities state
+│   └── ThemeContext.js # Theme management
+├── navigation/         # Navigation configuration
 ├── screens/            # Screen components
-│   ├── auth/          # Authentication screens
-│   ├── components/    # Reusable components
-│   ├── customcomponents/ # Custom UI components
-│   └── tabs/          # Tab screen components
-├── services/           # API services and utilities
+│   ├── ActivityLogScreen.js
+│   └── SettingsScreen.js
 └── utils/              # Helper functions and utilities
 ```
 
 ## 🔧 Available Scripts
 
 ```bash
-# Development
-npm start              # Start Metro bundler
-npm run android        # Run Android app
-npm run ios           # Run iOS app
-npm run test          # Run tests
-npm run lint          # Run ESLint
+# Start the development server
+npm start
 
-# Building
-npm run build:android # Build Android APK
-npm run build:ios     # Build iOS app
+# Run on Android
+npm run android
 
-# Utilities
-npm run clean         # Clean build artifacts
-npm run rebuild       # Rebuild native modules
+# Run on iOS (macOS only)
+npm run ios
+
+# Run tests
+npm test
+
+# Lint code
+npm run lint
 ```
 
-## 📱 Platform-Specific Setup
+## 🤝 Contributing
 
-### iOS Setup
+Contributions are welcome! Please follow these steps:
 
-1. **Install Xcode** from the Mac App Store
-2. **Install CocoaPods:**
-   ```bash
-   sudo gem install cocoapods
-   ```
-3. **Install iOS dependencies:**
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- Built with ❤️ using React Native:**
    ```bash
    cd ios && pod install && cd ..
    ```
