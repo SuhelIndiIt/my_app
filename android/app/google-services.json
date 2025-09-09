@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "236036584158",
+    "project_id": "omnicave-2d22f",
+    "storage_bucket": "omnicave-2d22f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:236036584158:android:e0323fdf72b60d6f86484f",
+        "android_client_info": {
+          "package_name": "com.omnicave"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "236036584158-i1qb9fla0r6rpe52gi7m8g2qq1fh0moo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.omnicave",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "236036584158-j29am1bi7fbl0ufqus4bisb42u67tq36.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAGWlLxo0QojInp0lEIj0Q0n4rgPlG5lWo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "236036584158-j29am1bi7fbl0ufqus4bisb42u67tq36.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "236036584158-nn9bcbbokgqg5v3filvffsgeecmoobeg.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.omnicave"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

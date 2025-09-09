@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">OmniCave</string>
+    <string name="facebook_app_id">490371647006366</string>
+    <string name="fb_login_protocol_scheme">fb490371647006366</string>
+    <string name="facebook_client_token">e88fa64547b6ed648cd0d43fe4c102f2</string>
+
+</resources>

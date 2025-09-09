@@ -1,0 +1,31 @@
+{
+  "buildFiles": [
+    "/Users/apple/Documents/react-nativeProjects/newOmni/node_modules/react-native/ReactAndroid/cmake-utils/default-app-setup/CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "/Users/apple/Library/Android/sdk/cmake/3.22.1/bin/ninja",
+      "-C",
+      "/Users/apple/Documents/react-nativeProjects/newOmni/android/app/.cxx/Debug/1g2y5r4z/x86",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "/Users/apple/Library/Android/sdk/cmake/3.22.1/bin/ninja",
+    "-C",
+    "/Users/apple/Documents/react-nativeProjects/newOmni/android/app/.cxx/Debug/1g2y5r4z/x86",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {
+    "appmodules::@6890427a1f51a3e7e1df": {
+      "artifactName": "appmodules",
+      "abi": "x86",
+      "output": "/Users/apple/Documents/react-nativeProjects/newOmni/android/app/build/intermediates/cxx/Debug/1g2y5r4z/obj/x86/libappmodules.so",
+      "runtimeFiles": [
+        "/Users/apple/.gradle/caches/8.10.2/transforms/39eb75259bf726b71d88469f00cdca8e/transformed/jetified-fbjni-0.6.0/prefab/modules/fbjni/libs/android.x86/libfbjni.so",
+        "/Users/apple/.gradle/caches/8.10.2/transforms/1323447f660eddcc48705448bfe4cc79/transformed/jetified-react-android-0.76.1-debug/prefab/modules/jsi/libs/android.x86/libjsi.so",
+        "/Users/apple/.gradle/caches/8.10.2/transforms/1323447f660eddcc48705448bfe4cc79/transformed/jetified-react-android-0.76.1-debug/prefab/modules/reactnative/libs/android.x86/libreactnative.so"
+      ]
+    }
+  }
+}
