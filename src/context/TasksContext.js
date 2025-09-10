@@ -13,6 +13,23 @@ import uuid from "react-native-uuid";
 
 const TasksContext = createContext();
 
+/**
+ * TasksProvider is a context provider component that manages the state and actions for managing tasks.
+ * It provides the following contexts:
+ * - tasks: The list of tasks.
+ * - setTasks: A function to set the list of tasks.
+ * - activityLog: The list of activity logs.
+ * - setActivityLog: A function to set the list of activity logs.
+ * - outbox: The list of outgoing actions.
+ * - setOutbox: A function to set the list of outgoing actions.
+ * - hydrated: A boolean indicating if the context is hydrated from storage.
+ * - setHydrated: A function to set the hydrated state.
+ * - processingRef: A reference to track if the outbox is currently being processed.
+ *
+ * @param {Object} props - The component props.
+ * @param {React.ReactNode} props.children - The child components to render.
+ * @returns {React.ReactElement} The rendered component.
+ */
 export const TasksProvider = ({ children }) => {
   const [tasks, setTasks] = useState([]);
   const [activityLog, setActivityLog] = useState([]);
@@ -20,6 +37,7 @@ export const TasksProvider = ({ children }) => {
   const [hydrated, setHydrated] = useState(false);
   const processingRef = useRef(false);
 
+  // Load tasks, outbox and activity log from storage on mount
   useEffect(() => {
     (async () => {
       const [savedTasks, savedOutbox, savedActivity] = await Promise.all([
@@ -34,19 +52,23 @@ export const TasksProvider = ({ children }) => {
     })();
   }, []);
 
+  // Save tasks, outbox and activity log to storage on change
   useEffect(() => {
     console.log(tasks, "tasks useeffe");
     if (hydrated) saveJSON(KEYS.TASKS, tasks);
   }, [tasks, hydrated]);
 
+  // Save outbox to storage on change
   useEffect(() => {
     if (hydrated) saveJSON(KEYS.OUTBOX, outbox);
   }, [outbox, hydrated]);
 
+  // Save activity log to storage on change
   useEffect(() => {
     if (hydrated) saveJSON(KEYS.ACTIVITY, activityLog);
   }, [activityLog, hydrated]);
 
+  // Process outbox on hydration
   useEffect(() => {
     if (!hydrated) return;
     (async () => {
@@ -54,7 +76,7 @@ export const TasksProvider = ({ children }) => {
     })();
   }, [hydrated]);
 
-  // Helpers
+  // Helper function to append activity log
   const appendActivity = (type, taskId, meta = {}) => {
     const entry = {
       id: uuid.v4(),
@@ -66,11 +88,12 @@ export const TasksProvider = ({ children }) => {
     setActivityLog((s) => [entry, ...s].slice(0, 500));
   };
 
+  // Helper function to enqueue action
   const enqueueAction = (action) => {
     setOutbox((s) => [action, ...s]);
   };
 
-  // optimistic create
+  // Optimistic create task
   const createTask = (data) => {
     const id = uuid.v4();
     const now = new Date().toISOString();
@@ -98,6 +121,7 @@ export const TasksProvider = ({ children }) => {
     return task1;
   };
 
+  // Optimistic update task
   const updateTask = (id, patch) => {
     const now = new Date().toISOString();
     setTasks((s) =>
@@ -112,6 +136,7 @@ export const TasksProvider = ({ children }) => {
     });
   };
 
+  // Optimistic delete task
   const deleteTask = (id) => {
     setTasks((s) => s.filter((t) => t.id !== id));
     appendActivity("delete", id, {});
@@ -123,6 +148,7 @@ export const TasksProvider = ({ children }) => {
     });
   };
 
+  // Optimistic toggle task completion
   const toggleComplete = (id) => {
     const task = tasks.find((t) => t.id === id);
     if (!task) return;
@@ -142,6 +168,7 @@ export const TasksProvider = ({ children }) => {
     });
   };
 
+  // Replay action locally
   const replayAction = async (action) => {
     await new Promise((r) => setTimeout(r, 150));
     return { ok: true };
@@ -173,6 +200,7 @@ export const TasksProvider = ({ children }) => {
     }
   };
 
+  // List tasks grouped by due date
   const listGrouped = () => {
     const nowISO = new Date().toISOString();
     const today = [];
@@ -203,6 +231,7 @@ export const TasksProvider = ({ children }) => {
     return { today, upcoming, overdue };
   };
 
+  // Search filter tasks
   const searchFilter = ({ q = "", priority = null, status = null }) => {
     const lower = q.trim().toLowerCase();
     return tasks.filter((t) => {
@@ -241,4 +270,5 @@ export const TasksProvider = ({ children }) => {
   );
 };
 
+// Custom hook to access tasks context
 export const useTasks = () => useContext(TasksContext);

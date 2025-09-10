@@ -12,7 +12,7 @@ import { KEYS, remove } from "../utils/storage";
 import React, { useState } from "react";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import PrimaryBtn from "../componets/PrimaryBtn";
+import PrimaryBtn from "../components/PrimaryBtn";
 import pkg from "../../package.json";
 import { useAuthCtx } from "../context/AuthContext";
 import { useThemeCtx } from "../context/ThemeContext";
@@ -106,9 +106,7 @@ export default function SettingsScreen() {
           <Text style={styles.sectionTitle}>About</Text>
           <Text style={styles.aboutRow}>{APP_NAME}</Text>
           <Text style={styles.aboutRow}>Version: {APP_VERSION}</Text>
-          <Text style={styles.aboutSmall}>
-            Built by: Your Name — replace this in code with your actual name.
-          </Text>
+          <Text style={styles.aboutSmall}>Built by: My Todos App.</Text>
         </View>
 
         <View style={styles.section}>

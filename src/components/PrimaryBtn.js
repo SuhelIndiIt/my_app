@@ -7,6 +7,7 @@ const PrimaryBtn = ({ onPress, label, style, textStyle }) => {
   const { colors } = useThemeCtx();
   return (
     <TouchableOpacity
+      activeOpacity={0.8}
       onPress={onPress}
       style={[styles.button, { backgroundColor: colors.primary }, style]}
     >

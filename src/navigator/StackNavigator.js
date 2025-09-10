@@ -5,20 +5,34 @@ import {
 } from "@react-navigation/native";
 import { Text, View } from "react-native";
 
-import ActivityLogScreen from "./screens/ActivityLogScreen";
-import AuthScreen from "./screens/AuthScreen";
+import AuthScreen from "../screens/AuthScreen";
 import React from "react";
-import SettingsScreen from "./screens/SettingsScreen";
-import TaskFormScreen from "./screens/TaskFormScreen";
-import TaskListScreen from "./screens/TaskListScreen";
+import TabNavigator from "./TabNavigator";
+import TaskFormScreen from "../screens/TaskFormScreen";
 import { createStackNavigator } from "@react-navigation/stack";
-import screenNames from "./constants/screenNames";
-import { useAuthCtx } from "./context/AuthContext";
-import { useThemeCtx } from "./context/ThemeContext";
+import screenNames from "../constants/screenNames";
+import { useAuthCtx } from "../context/AuthContext";
+import { useThemeCtx } from "../context/ThemeContext";
 
 const Stack = createStackNavigator();
 
-const AppNavigator = () => {
+/**
+ * StackNavigator is the root navigator for the application.
+ * It contains multiple screens and defines the navigation structure.
+ *
+ * Screens:
+ * - AuthScreen: The login screen.
+ * - TaskFormScreen: The screen to create new tasks.
+ * - TabNavigator: The main application navigator with tabs.
+ *
+ * Navigation:
+ * - The initial screen is AuthScreen if the user is not logged in.
+ * - If the user is logged in, the initial screen is TabNavigator.
+ * - The stack navigator uses the default theme if the background color is white.
+ * - The stack navigator uses the dark theme if the background color is black.
+ */
+
+const StackNavigator = () => {
   const { userEmail, loading } = useAuthCtx();
   const { colors } = useThemeCtx();
 
@@ -63,27 +77,14 @@ const AppNavigator = () => {
         ) : (
           <>
             <Stack.Screen
-              name={screenNames.TaskListScreen}
-              component={TaskListScreen}
-              options={{ title: "Tasks List" }}
+              name="MainTabs"
+              component={TabNavigator}
+              options={{ headerShown: false }}
             />
-
             <Stack.Screen
               name={screenNames.TaskFormScreen}
               component={TaskFormScreen}
               options={{ title: "Task Form" }}
-            />
-
-            <Stack.Screen
-              name={screenNames.ActivityLogScreen}
-              component={ActivityLogScreen}
-              options={{ title: "Activity Log" }}
-            />
-
-            <Stack.Screen
-              name={screenNames.SettingsScreen}
-              component={SettingsScreen}
-              options={{ title: "Settings" }}
             />
           </>
         )}
@@ -92,4 +93,4 @@ const AppNavigator = () => {
   );
 };
 
-export default AppNavigator;
+export default StackNavigator;

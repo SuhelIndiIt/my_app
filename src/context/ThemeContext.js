@@ -1,12 +1,11 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { loadJSON, saveJSON } from "../utils/storage";
 
-import { useColorScheme } from "react-native";
-
 const KEYS = {
   THEME: "THEME_PREFERENCES",
 };
 
+// Theme colors for light modes
 const lightColors = {
   background: "#ffffff",
   card: "#ffffff",
@@ -27,6 +26,7 @@ const lightColors = {
   textSecondary: "#8e8e93",
 };
 
+// Theme colors for dark mode
 const darkColors = {
   background: "#121212",
   card: "#1e1e1e",
@@ -49,13 +49,26 @@ const darkColors = {
 
 const ThemeContext = createContext();
 
+/**
+ * ThemeProvider component
+ *
+ * Provides theme context to the app with a way to toggle between light and dark modes.
+ * Theme is stored in local storage and loaded on mount.
+ *
+ * @param {Object} props - The props object
+ * @param {ReactNode} props.children - The children nodes
+ * @returns {ReactNode} - The rendered ThemeProvider component
+ */
+
 export const ThemeProvider = ({ children }) => {
   const [theme, setTheme] = useState("light");
 
+  // Load theme from storage on mount
   useEffect(() => {
     getThemeFromStorage();
   }, []);
 
+  // Load theme from storage
   const getThemeFromStorage = async () => {
     try {
       const savedTheme = await loadJSON(KEYS.THEME);
@@ -67,6 +80,7 @@ export const ThemeProvider = ({ children }) => {
     }
   };
 
+  // Toggle theme between light and dark
   const toggleTheme = async (newTheme) => {
     try {
       const themeToSet = newTheme || (theme === "light" ? "dark" : "light");
@@ -77,6 +91,7 @@ export const ThemeProvider = ({ children }) => {
     }
   };
 
+  // Return current theme and toggle function
   const currentTheme = useMemo(
     () => ({
       mode: theme,
@@ -93,6 +108,7 @@ export const ThemeProvider = ({ children }) => {
   );
 };
 
+// Custom hook to access theme context
 export const useThemeCtx = () => {
   const context = useContext(ThemeContext);
   if (context === undefined) {

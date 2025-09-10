@@ -16,7 +16,8 @@ import React, { useState } from "react";
 
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Formik } from "formik";
-import PrimaryBtn from "../componets/PrimaryBtn";
+import PrimaryBtn from "../components/PrimaryBtn";
+import scheduleNotification from "../utils/scheduleNotification";
 import { useTasks } from "../context/TasksContext";
 import { useThemeCtx } from "../context/ThemeContext";
 
@@ -30,7 +31,7 @@ const TaskSchema = Yup.object().shape({
 export default function TaskFormScreen({ route, navigation }) {
   const { taskId } = route.params || {};
   const { tasks, createTask, updateTask } = useTasks();
-  const { colors } = useThemeCtx();
+  const { colors, mode } = useThemeCtx();
   const styles = createStyles(colors);
 
   const existingTask = taskId ? tasks.find((t) => t.id === taskId) : null;
@@ -52,11 +53,19 @@ export default function TaskFormScreen({ route, navigation }) {
             ...values,
             dueDate: values.dueDate ? values.dueDate.toISOString() : null,
           });
-        } else {
-          createTask({
+          // Schedule notification for updated task
+          scheduleNotification({
             ...values,
             dueDate: values.dueDate ? values.dueDate.toISOString() : null,
           });
+        } else {
+          const newTask = {
+            ...values,
+            dueDate: values.dueDate ? values.dueDate.toISOString() : null,
+          };
+          createTask(newTask);
+          // Schedule notification for new task
+          scheduleNotification(newTask);
         }
         navigation.goBack();
       }}
@@ -151,7 +160,7 @@ export default function TaskFormScreen({ route, navigation }) {
                   >
                     <Text
                       style={{
-                        color: values.priority === level ? "#fff" : "#000",
+                        color: values.priority === level ? "#fff" : colors.text,
                       }}
                     >
                       {level}
@@ -216,11 +225,23 @@ export default function TaskFormScreen({ route, navigation }) {
               transparent
               onRequestClose={() => setDatePickerVisible(false)}
             >
-              <View style={{ flex: 1, justifyContent: "flex-end" }}>
-                <View style={[styles.modalDate]}>
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: "flex-end",
+                  backgroundColor: "rgba(0,0,0,0.9)",
+                }}
+              >
+                <View
+                  style={[
+                    styles.modalDate,
+                    { backgroundColor: colors.background },
+                  ]}
+                >
                   <DateTimePicker
                     value={values.dueDate || new Date()}
-                    mode="date"
+                    mode="datetime"
+                    themeVariant={mode}
                     display={Platform.OS === "ios" ? "spinner" : "default"}
                     onChange={(event, selectedDate) => {
                       setDatePickerVisible(Platform.OS === "ios"); // keep open on iOS

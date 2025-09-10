@@ -53,6 +53,7 @@
 			</array>
 		</dict>
 	</array>
+	
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>FacebookAppID</key>
@@ -83,6 +84,13 @@
 			</dict>
 		</dict>
 	</dict>
+
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
+	</array>
+
+
 	<key>NSCameraUsageDescription</key>
 	<string>$(PRODUCT_NAME) would like access to your photo gallery to update your profile and add the invertory image</string>
 	<key>NSLocationWhenInUseUsageDescription</key>

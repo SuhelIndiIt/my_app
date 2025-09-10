@@ -8,100 +8,39 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 
-import PrimaryBtn from "../componets/PrimaryBtn";
+import PrimaryBtn from "../components/PrimaryBtn";
+import RenderTask from "../components/RenderTask";
+import TaskSection from "../components/TaskSection";
 import screenNames from "../constants/screenNames";
 import { useAuthCtx } from "../context/AuthContext";
 import { useTasks } from "../context/TasksContext";
 import { useThemeCtx } from "../context/ThemeContext";
 
-const Section = ({ title, data, renderItem, colors }) => (
-  <View style={{ marginVertical: 8 }}>
-    <Text
-      style={{
-        fontWeight: "700",
-        marginBottom: 6,
-        color: colors.text,
-        fontSize: 16,
-      }}
-    >
-      {title} ({data?.length})
-    </Text>
-    {data?.length === 0 ? (
-      <Text style={{ color: colors.textSecondary, marginLeft: 8 }}>
-        No tasks
-      </Text>
-    ) : (
-      <FlatList
-        data={data}
-        keyExtractor={(i) => i.id}
-        renderItem={renderItem}
-        style={{ marginBottom: 16 }}
-      />
-    )}
-  </View>
-);
+const tabList = [
+  { label: "Today", value: "today" },
+  { label: "Upcoming", value: "upcoming" },
+  { label: "Overdue", value: "overdue" },
+];
 
 export default function TaskListScreen({ navigation }) {
   const { listGrouped, tasks, toggleComplete } = useTasks();
   const { colors } = useThemeCtx();
   const { userEmail } = useAuthCtx();
+  const [activeTab, setActiveTab] = useState("today");
+
   const grouped = useMemo(() => listGrouped(), [tasks]);
 
   const styles = createStyles(colors);
 
   const renderTask = ({ item }) => (
-    <TouchableOpacity
-      onPress={() =>
-        navigation.navigate(screenNames.TaskFormScreen, { taskId: item.id })
-      }
-      style={[
-        styles.row,
-        {
-          backgroundColor: colors.card,
-          borderColor: colors.border,
-          shadowColor: colors.shadow,
-        },
-      ]}
-    >
-      <View style={{ flex: 1 }}>
-        <Text
-          style={[
-            styles.taskTitle,
-            {
-              color: colors.text,
-              textDecorationLine:
-                item.status === "completed" ? "line-through" : "none",
-              opacity: item.status === "completed" ? 0.7 : 1,
-            },
-          ]}
-        >
-          {item.title}
-        </Text>
-        <View style={styles.taskMeta}>
-          <Text style={[styles.taskMetaText, { color: colors.textSecondary }]}>
-            {item.priority} • {item.tags?.join(", ") || "no tags"}
-          </Text>
-        </View>
-      </View>
-      <View style={styles.actionButton}>
-        <PrimaryBtn
-          label={item.status === "completed" ? "Reopen" : "Complete"}
-          onPress={() => toggleComplete(item.id)}
-          style={{
-            backgroundColor:
-              item.status === "completed" ? colors.success : colors.primary,
-            paddingVertical: 6,
-            paddingHorizontal: 12,
-            margin: 0,
-            width: "auto",
-            minWidth: 100,
-          }}
-          textStyle={{ fontSize: 14 }}
-        />
-      </View>
-    </TouchableOpacity>
+    <RenderTask
+      item={item}
+      colors={colors}
+      toggleComplete={toggleComplete}
+      styles={styles}
+    />
   );
 
   return (
@@ -114,58 +53,64 @@ export default function TaskListScreen({ navigation }) {
         </Text>
 
         <View style={styles.actions}>
-          <PrimaryBtn
-            label="New Task"
-            onPress={() => navigation.navigate(screenNames.TaskFormScreen)}
-            style={{
-              flex: 1,
-              marginRight: 8,
-              backgroundColor: colors.primary,
-              width: "33%",
-            }}
-          />
-          <PrimaryBtn
-            label="Activity"
-            onPress={() => navigation.navigate(screenNames.ActivityLogScreen)}
-            style={{
-              backgroundColor: colors.backgroundSecondary,
-              marginRight: 8,
-              width: "33%",
-            }}
-            textStyle={{ color: colors.text }}
-          />
-          <PrimaryBtn
-            label="Settings"
-            onPress={() => navigation.navigate(screenNames.SettingsScreen)}
-            style={{
-              backgroundColor: colors.backgroundSecondary,
-              width: "33%",
-            }}
-            textStyle={{ color: colors.text }}
-          />
+          {/* tabs  */}
+          {tabList?.map((item, index) => (
+            <PrimaryBtn
+              key={index}
+              label={`${item.label} ${grouped?.[item.value]?.length}`}
+              onPress={() => setActiveTab(item.value)}
+              style={{
+                flex: 1,
+                marginRight: 8,
+                backgroundColor:
+                  activeTab === item.value
+                    ? colors.primary
+                    : colors.backgroundSecondary,
+                width: "33%",
+                marginBottom: 15,
+              }}
+              textStyle={{ color: colors.text }}
+            />
+          ))}
         </View>
       </View>
 
       <View style={styles.content}>
-        <Section
-          title="Today"
-          data={grouped?.today}
-          renderItem={renderTask}
-          colors={colors}
-        />
-        <Section
-          title="Upcoming"
-          data={grouped?.upcoming}
-          renderItem={renderTask}
-          colors={colors}
-        />
-        <Section
-          title="Overdue"
-          data={grouped?.overdue}
-          renderItem={renderTask}
-          colors={colors}
-        />
+        {/* today tasks */}
+        {activeTab === "today" && (
+          <TaskSection
+            title="Today"
+            data={grouped?.today}
+            renderItem={renderTask}
+            colors={colors}
+          />
+        )}
+        {activeTab === "upcoming" && (
+          <TaskSection
+            title="Upcoming"
+            data={grouped?.upcoming}
+            renderItem={renderTask}
+            colors={colors}
+          />
+        )}
+
+        {/* upcoming tasks */}
+        {activeTab === "overdue" && (
+          <TaskSection
+            title="Overdue"
+            data={grouped?.overdue}
+            renderItem={renderTask}
+            colors={colors}
+          />
+        )}
       </View>
+
+      <PrimaryBtn
+        label="Add"
+        onPress={() => navigation.navigate(screenNames.TaskFormScreen)}
+        style={styles.addTaskBtn}
+        textStyle={{ color: colors.text, fontSize: 12 }}
+      />
     </SafeAreaView>
   );
 }
@@ -193,7 +138,6 @@ const createStyles = (colors) =>
     },
     content: {
       flex: 1,
-      padding: 16,
     },
     row: {
       flexDirection: "row",
@@ -234,5 +178,16 @@ const createStyles = (colors) =>
       textAlign: "center",
       marginTop: 20,
       color: colors.textSecondary,
+    },
+    addTaskBtn: {
+      position: "absolute",
+      bottom: 0,
+      right: 10,
+      alignSelf: "flex-end",
+      width: 50,
+      height: 50,
+      borderRadius: 30,
+      justifyContent: "center",
+      alignItems: "center",
     },
   });
