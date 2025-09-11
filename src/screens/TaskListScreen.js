@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import React, { useMemo, useState } from "react";
 
+import ImageImport from "../constants/imageImport";
 import PrimaryBtn from "../components/PrimaryBtn";
 import RenderTask from "../components/RenderTask";
 import TaskSection from "../components/TaskSection";
@@ -105,12 +106,19 @@ export default function TaskListScreen({ navigation }) {
         )}
       </View>
 
-      <PrimaryBtn
+      <TouchableOpacity
+        onPress={() => navigation.navigate(screenNames.TaskFormScreen)}
+        style={styles.addTaskBtn}
+      >
+        <ImageImport.addSvg color={colors.text} />
+      </TouchableOpacity>
+
+      {/* <PrimaryBtn
         label="Add"
         onPress={() => navigation.navigate(screenNames.TaskFormScreen)}
         style={styles.addTaskBtn}
         textStyle={{ color: colors.text, fontSize: 12 }}
-      />
+      /> */}
     </SafeAreaView>
   );
 }
@@ -181,13 +189,14 @@ const createStyles = (colors) =>
     },
     addTaskBtn: {
       position: "absolute",
-      bottom: 0,
-      right: 10,
+      bottom: 16,
+      right: 16,
       alignSelf: "flex-end",
       width: 50,
       height: 50,
       borderRadius: 30,
       justifyContent: "center",
       alignItems: "center",
+      backgroundColor: colors.primary,
     },
   });

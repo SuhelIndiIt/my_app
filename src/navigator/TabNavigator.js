@@ -1,5 +1,6 @@
-import { Image, Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 
+import ImageImport from "../constants/imageImport";
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import screenNames from "../constants/screenNames";
@@ -26,7 +27,7 @@ const Tab = createBottomTabNavigator();
  */
 
 const TabNavigator = () => {
-  const { colors } = useThemeCtx();
+  const { mode, colors } = useThemeCtx();
 
   return (
     <Tab.Navigator
@@ -38,29 +39,50 @@ const TabNavigator = () => {
           borderTopColor: colors?.border || "#ddd",
         },
         headerShown: false,
-        tabBarIconStyle: {
-          display: "none",
-        },
+
         tabBarLabelStyle: {
-          fontSize: 13,
-          color: colors.text,
+          display: "none",
         },
       })}
     >
       <Tab.Screen
         name={screenNames.TaskListScreen}
         component={require("../screens/TaskListScreen").default}
-        options={{ title: "Tasks" }}
+        options={{
+          title: "Tasks",
+          tabBarIcon: ({ focused }) => (
+            <ImageImport.taskSvg
+              color={mode === "dark" ? "#fff" : "#000"}
+              style={{ opacity: focused ? 1 : 0.7 }}
+            />
+          ),
+        }}
       />
       <Tab.Screen
         name={screenNames.ActivityLogScreen}
         component={require("../screens/ActivityLogScreen").default}
-        options={{ title: "Activity" }}
+        options={{
+          title: "Activity",
+          tabBarIcon: ({ focused }) => (
+            <ImageImport.activitySvg
+              color={mode === "dark" ? "#fff" : "#000"}
+              style={{ opacity: focused ? 1 : 0.7 }}
+            />
+          ),
+        }}
       />
       <Tab.Screen
         name={screenNames.SettingsScreen}
         component={require("../screens/SettingsScreen").default}
-        options={{ title: "Settings" }}
+        options={{
+          title: "Settings",
+          tabBarIcon: ({ focused }) => (
+            <ImageImport.settingSvg
+              color={mode === "dark" ? "#fff" : "#000"}
+              style={{ opacity: focused ? 1 : 0.7 }}
+            />
+          ),
+        }}
       />
     </Tab.Navigator>
   );

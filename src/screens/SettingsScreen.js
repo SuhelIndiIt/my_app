@@ -111,16 +111,32 @@ export default function SettingsScreen() {
 
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Developer</Text>
-          <Text style={styles.devNote}>
-            Danger zone — for development and troubleshooting.
-          </Text>
-          <View style={{ marginTop: 8 }}>
-            <Button
-              title={clearing ? "Clearing..." : "Clear local data"}
-              onPress={handleClearLocalData}
-              color={colors.danger}
-              disabled={clearing}
-            />
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <Text style={styles.devNote}>
+              Danger zone — for development and troubleshooting.
+            </Text>
+
+            <View style={{ marginTop: 8 }}>
+              <PrimaryBtn
+                label={clearing ? "Clearing..." : "Clear data"}
+                onPress={handleClearLocalData}
+                style={{
+                  backgroundColor: colors.danger,
+                  width: "100%",
+                  paddingVertical: 10,
+                  borderRadius: 40,
+                  marginBottom: 0,
+                }}
+                textStyle={{ color: "#fff", fontSize: 12 }}
+                disabled={clearing}
+              />
+            </View>
           </View>
         </View>
 
@@ -229,6 +245,7 @@ const createStyles = (colors) =>
     devNote: {
       color: colors.danger,
       fontWeight: "600",
+      width: "70%",
     },
     footer: {
       color: colors.textSecondary,

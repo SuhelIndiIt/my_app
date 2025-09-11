@@ -32,6 +32,8 @@
     "react-native-safe-area-context": "^4.14.1",
     "react-native-screens": "^3.37.0",
     "react-native-size-matters": "^0.4.2",
+    "react-native-svg": "^15.13.0",
+    "react-native-svg-transformer": "^1.5.1",
     "react-native-uuid": "^2.0.3",
     "yup": "^1.6.1"
   },
@@ -46,6 +48,7 @@
     "@react-native/eslint-config": "0.76.1",
     "@react-native/metro-config": "0.76.1",
     "@react-native/typescript-config": "0.76.1",
+    "@svgr/cli": "^8.1.0",
     "@types/react": "^18.2.6",
     "@types/react-test-renderer": "^18.0.0",
     "babel-jest": "^29.6.3",
